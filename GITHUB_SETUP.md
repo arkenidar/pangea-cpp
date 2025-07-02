@@ -42,12 +42,14 @@ git push -u origin main
 After pushing, configure these settings on GitHub:
 
 #### Repository Settings
+
 - Go to Settings → General
 - Set default branch to `main`
 - Enable "Issues" and "Discussions"
 - Enable "Wikis" if you want additional documentation
 
 #### Branch Protection
+
 - Go to Settings → Branches
 - Add branch protection rule for `main`:
   - Require pull request reviews before merging
@@ -55,6 +57,7 @@ After pushing, configure these settings on GitHub:
   - Include administrators
 
 #### Topics and Description
+
 - Add topics: `c++`, `interpreter`, `programming-language`, `pangea`, `cmake`, `cpp20`
 - Ensure description is: "Modern C++20 implementation of the Pangea programming language interpreter"
 

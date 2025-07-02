@@ -60,6 +60,7 @@ Please follow the coding standards outlined in `.github/copilot-instructions.md`
 ### Bug Reports
 
 When reporting bugs, please include:
+
 - Clear description of the issue
 - Steps to reproduce
 - Expected vs actual behavior
@@ -69,6 +70,7 @@ When reporting bugs, please include:
 ### Feature Requests
 
 For new features:
+
 - Describe the use case and motivation
 - Provide examples of how it would be used
 - Consider backward compatibility
@@ -79,21 +81,25 @@ For new features:
 #### Areas for Contribution
 
 1. **Core Interpreter**
+
    - Bug fixes in parsing or execution
    - Performance improvements
    - Memory optimization
 
 2. **Built-in Functions**
+
    - New arithmetic or logical operations
    - Enhanced string manipulation
    - File I/O operations
 
 3. **Language Features**
+
    - Control flow enhancements
    - Object-oriented features
    - Module system
 
 4. **Testing**
+
    - Unit test coverage improvements
    - Integration tests
    - Performance benchmarks
@@ -125,6 +131,7 @@ type(scope): description
 ```
 
 Types:
+
 - `feat`: New feature
 - `fix`: Bug fix
 - `docs`: Documentation changes
@@ -134,6 +141,7 @@ Types:
 - `chore`: Maintenance tasks
 
 Examples:
+
 ```
 feat(interpreter): add support for lambda functions
 fix(parser): handle escaped quotes in string literals
@@ -199,6 +207,7 @@ Releases follow semantic versioning (MAJOR.MINOR.PATCH):
 ## Recognition
 
 Contributors will be acknowledged in:
+
 - CONTRIBUTORS.md file
 - Release notes
 - GitHub contributors section

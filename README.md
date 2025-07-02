@@ -225,6 +225,7 @@ The `Interpreter` class implements:
 ## Built-in Functions
 
 ### Arithmetic
+
 - `plus a b` - Addition or string concatenation
 - `minus a b` - Subtraction
 - `times a b` - Multiplication
@@ -232,33 +233,39 @@ The `Interpreter` class implements:
 - `power a b` - Exponentiation
 
 ### Comparison
+
 - `equal a b` - Equality test
 - `less a b` - Less than
 - `greater a b` - Greater than
 
 ### Logical
+
 - `and a b` - Logical AND
 - `or a b` - Logical OR
 - `not a` - Logical NOT
 
 ### I/O
+
 - `print value` - Print without newline
 - `println value` - Print with newline
 - `input` - Read user input
 
 ### Type Operations
+
 - `type value` - Get type name
 - `string value` - Convert to string
 - `number value` - Convert to number
 - `length value` - Get length
 
 ### Data Structures
+
 - `array` - Create empty array
 - `object` - Create empty object
 - `get collection key` - Get value from collection
 - `set collection key value` - Set value in collection
 
 ### Control Flow
+
 - `if condition then else` - Conditional execution
 - `times_loop count body` - Loop execution
 - `each collection body` - Iterate over collection

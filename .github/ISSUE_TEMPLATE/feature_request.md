@@ -1,9 +1,9 @@
 ---
 name: Feature request
 about: Suggest an idea for this project
-title: '[FEATURE] '
+title: "[FEATURE] "
 labels: enhancement
-assignees: ''
+assignees: ""
 ---
 
 **Is your feature request related to a problem? Please describe.**
@@ -29,7 +29,8 @@ If you have ideas about how this could be implemented, please share them.
 Add any other context or screenshots about the feature request here.
 
 **Complexity estimate**
+
 - [ ] Simple (few hours)
-- [ ] Medium (few days) 
+- [ ] Medium (few days)
 - [ ] Complex (weeks)
 - [ ] Major (significant architecture changes)

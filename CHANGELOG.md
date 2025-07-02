@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
 - Initial C++20 implementation of Pangea interpreter
 - Core Value system using std::variant for type safety
 - FunctionEntry system for function registry and metadata
@@ -21,25 +22,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Comprehensive documentation and build scripts
 
 ### Changed
+
 - Ported from Java implementation to modern C++20
 - Improved type safety with std::variant-based Value system
 - Enhanced error handling with C++ exception system
 
 ### Deprecated
+
 - None
 
 ### Removed
+
 - None
 
 ### Fixed
+
 - None
 
 ### Security
+
 - None
 
 ## [0.1.0] - 2025-07-02
 
 ### Added
+
 - Initial release of Pangea C++ interpreter
 - Core language features:
   - Phrase-building parsing mechanism
