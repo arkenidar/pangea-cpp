@@ -1,0 +1,22 @@
+# Type system examples
+
+# Numbers
+println type 42
+println type 3.14
+
+# Strings
+println type "hello"
+println type hello
+
+# Booleans
+println type true
+println type false
+
+# Type conversion
+println number "42"
+println string 123
+println string true
+
+# Length function
+println length "hello"
+println length "world!"

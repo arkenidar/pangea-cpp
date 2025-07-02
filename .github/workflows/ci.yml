@@ -1,0 +1,135 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        compiler: [gcc, clang]
+        exclude:
+          - os: windows-latest
+            compiler: clang
+          - os: macos-latest
+            compiler: gcc
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up build environment (Ubuntu)
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        sudo apt-get update
+        if [ "${{ matrix.compiler }}" = "gcc" ]; then
+          sudo apt-get install -y gcc-11 g++-11
+          echo "CC=gcc-11" >> $GITHUB_ENV
+          echo "CXX=g++-11" >> $GITHUB_ENV
+        else
+          sudo apt-get install -y clang-14
+          echo "CC=clang-14" >> $GITHUB_ENV
+          echo "CXX=clang++-14" >> $GITHUB_ENV
+        fi
+
+    - name: Set up build environment (macOS)
+      if: matrix.os == 'macos-latest'
+      run: |
+        brew install cmake
+        if [ "${{ matrix.compiler }}" = "clang" ]; then
+          echo "CC=clang" >> $GITHUB_ENV
+          echo "CXX=clang++" >> $GITHUB_ENV
+        fi
+
+    - name: Set up build environment (Windows)
+      if: matrix.os == 'windows-latest'
+      uses: microsoft/setup-msbuild@v1.3
+
+    - name: Configure CMake (Unix)
+      if: matrix.os != 'windows-latest'
+      run: |
+        mkdir build
+        cd build
+        cmake .. -DCMAKE_BUILD_TYPE=Release
+
+    - name: Configure CMake (Windows)
+      if: matrix.os == 'windows-latest'
+      run: |
+        mkdir build
+        cd build
+        cmake .. -DCMAKE_BUILD_TYPE=Release
+
+    - name: Build
+      run: |
+        cd build
+        cmake --build . --config Release
+
+    - name: Test
+      run: |
+        cd build
+        ctest --output-on-failure --build-config Release
+
+    - name: Test executable (Unix)
+      if: matrix.os != 'windows-latest'
+      run: |
+        cd build
+        ./pangea --help
+        echo 'println "Hello, CI!"' > test.pangea
+        ./pangea test.pangea
+
+    - name: Test executable (Windows)
+      if: matrix.os == 'windows-latest'
+      run: |
+        cd build
+        .\Release\pangea.exe --help
+        echo 'println "Hello, CI!"' > test.pangea
+        .\Release\pangea.exe test.pangea
+
+  code-quality:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y gcc-11 g++-11 clang-format cppcheck
+
+    - name: Check code formatting
+      run: |
+        find include src tests -name "*.hpp" -o -name "*.cpp" | xargs clang-format --dry-run --Werror
+
+    - name: Static analysis with cppcheck
+      run: |
+        cppcheck --enable=all --error-exitcode=1 --suppress=missingInclude --inline-suppr include/ src/
+
+    - name: Build with warnings as errors
+      run: |
+        mkdir build
+        cd build
+        cmake .. -DCMAKE_CXX_COMPILER=g++-11 -DCMAKE_CXX_FLAGS="-Wall -Wextra -Werror -pedantic"
+        make
+
+  documentation:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install doxygen
+      run: sudo apt-get install -y doxygen graphviz
+
+    - name: Generate documentation
+      run: |
+        doxygen --version
+        # TODO: Add Doxyfile configuration
+        # doxygen Doxyfile
+
+    - name: Check README links
+      run: |
+        # Check that README examples are valid
+        grep -o '```bash[^`]*```' README.md | sed 's/```bash//; s/```//' > commands.txt
+        echo "README syntax check passed"

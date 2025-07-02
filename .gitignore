@@ -1,0 +1,75 @@
+# Build directories
+build/
+build-*/
+out/
+
+# CMake generated files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+CTestTestfile.cmake
+Makefile
+*.cmake
+
+# Compiled object files
+*.o
+*.obj
+*.so
+*.dylib
+*.dll
+*.a
+*.lib
+
+# Executables
+*.exe
+pangea
+pangea_tests
+
+# IDE and editor files
+.vscode/settings.json
+.vscode/launch.json
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+test_simple.pangea
+test.o
+
+# Coverage and profiling
+*.gcno
+*.gcda
+*.gcov
+coverage/
+
+# Logs
+*.log
+
+# Package managers
+conan/
+vcpkg/
+
+# Catch2 and other dependencies (when using FetchContent)
+_deps/
+
+# Documentation build
+docs/_build/
+docs/html/
+docs/latex/
+
+# Archives
+*.zip
+*.tar.gz
+*.7z

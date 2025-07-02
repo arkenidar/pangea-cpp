@@ -1,0 +1,20 @@
+# Basic arithmetic examples
+
+# Simple addition
+println plus 2 3
+
+# Nested operations
+println plus times 2 3 4
+
+# String concatenation
+println plus "Hello, " "World!"
+
+# Comparison
+println equal 5 5
+println less 3 7
+println greater 10 5
+
+# Logical operations
+println and true false
+println or true false
+println not false
