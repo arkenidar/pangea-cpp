@@ -27,7 +27,7 @@ pangea_tests
 
 # IDE and editor files
 .vscode/settings.json
-.vscode/launch.json
+#.vscode/launch.json
 .idea/
 *.swp
 *.swo
