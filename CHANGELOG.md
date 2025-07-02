@@ -37,7 +37,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- None
+- Removed inappropriate warning about spaces in string literals
+- Simplified string parsing to allow normal string literals with spaces
+- Removed complex + character replacement logic from parser
 
 ### Security
 

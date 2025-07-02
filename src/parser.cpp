@@ -96,7 +96,6 @@ namespace pangea
         std::vector<std::string> tokens;
         std::string currentToken;
         bool inQuotes = false;
-        bool hasSpacesInString = false;
 
         for (size_t i = 0; i < code.length(); ++i)
         {
@@ -113,35 +112,21 @@ namespace pangea
                         currentToken.clear();
                     }
                     inQuotes = true;
-                    hasSpacesInString = false;
                     currentToken += c;
                 }
                 else
                 {
                     // Ending a string
                     currentToken += c;
-
-                    // Check if this string had spaces and provide helpful error message
-                    if (hasSpacesInString)
-                    {
-                        std::cerr << "WARNING: String literal contains spaces: " << currentToken << std::endl;
-                        std::cerr << "         In Pangea, use '+' instead of spaces in strings." << std::endl;
-                        std::cerr << "         Example: \"Hello+World\" instead of \"Hello World\"" << std::endl;
-                        std::cerr << "         This will result in a null value." << std::endl;
-                    }
-
-                    tokens.push_back(handlePlus(currentToken));
+                    tokens.push_back(currentToken);
                     currentToken.clear();
                     inQuotes = false;
                 }
             }
             else if (inQuotes)
             {
+                // Inside a string literal - preserve all characters including spaces
                 currentToken += c;
-                if (std::isspace(c))
-                {
-                    hasSpacesInString = true;
-                }
             }
             else if (std::isspace(c))
             {
@@ -222,47 +207,9 @@ namespace pangea
 
     std::string Parser::handlePlus(const std::string &word)
     {
-        if (!isString(word))
-        {
-            return word;
-        }
-
-        Value parsedVal = parseValue(word);
-        if (parsedVal.isNull())
-        {
-            return word;
-        }
-
-        std::string parsed = parsedVal.asString();
-
-        // Replace patterns: (+ ) -> ♦PLUS♦, + -> space, ♦PLUS♦ -> +
-        std::string temp = parsed;
-
-        // First, protect literal plus signs
-        size_t pos = 0;
-        while ((pos = temp.find("(+)", pos)) != std::string::npos)
-        {
-            temp.replace(pos, 3, "♦PLUS♦");
-            pos += 6; // Length of "♦PLUS♦"
-        }
-
-        // Convert remaining + to spaces
-        pos = 0;
-        while ((pos = temp.find('+', pos)) != std::string::npos)
-        {
-            temp[pos] = ' ';
-            ++pos;
-        }
-
-        // Restore literal plus signs
-        pos = 0;
-        while ((pos = temp.find("♦PLUS♦", pos)) != std::string::npos)
-        {
-            temp.replace(pos, 6, "+");
-            pos += 1; // Length of "+"
-        }
-
-        return "\"" + temp + "\"";
+        // In modern Pangea C++, string literals are used as-is
+        // No special processing of + characters needed
+        return word;
     }
 
 } // namespace pangea
