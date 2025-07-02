@@ -44,26 +44,23 @@ message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 message(STATUS "C++ standard: ${CMAKE_CXX_STANDARD}")
 message(STATUS "Compiler: ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
 
-# Optional testing (disabled by default to avoid dependency issues)
-option(BUILD_TESTS "Build test suite (requires Catch2)" OFF)
+# Optional testing
+option(BUILD_TESTS "Build test suite with Catch2 v3" OFF)
 
 if(BUILD_TESTS)
-    enable_testing()
-    message(STATUS "Building tests enabled")
+    # Use FetchContent to download and build Catch2 v3
+    include(FetchContent)
     
-    # Try to find system Catch2 first
-    find_package(Catch2 3 QUIET)
-    if(Catch2_FOUND)
-        message(STATUS "Found system Catch2 v3")
-    else()
-        find_package(Catch2 2 QUIET)
-        if(Catch2_FOUND)
-            message(STATUS "Found system Catch2 v2")
-        else()
-            message(WARNING "Catch2 not found. Install with: sudo apt-get install catch2-dev")
-            return()
-        endif()
-    endif()
+    FetchContent_Declare(
+        Catch2
+        GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+        GIT_TAG v3.4.0
+    )
+    
+    FetchContent_MakeAvailable(Catch2)
+    
+    enable_testing()
+    message(STATUS "Building tests with Catch2 v3 (FetchContent)")
     
     # Test executable
     add_executable(pangea_tests 

@@ -272,16 +272,40 @@ The `Interpreter` class implements:
 
 ## Testing
 
-The project includes comprehensive tests using Catch2:
+The project uses Catch2 v3 for unit testing. Tests are disabled by default to avoid dependency issues during the initial build.
+
+### Building with Tests
+
+```bash
+mkdir build && cd build
+cmake -DBUILD_TESTS=ON ..
+make -j$(nproc)
+```
+
+The build system automatically downloads and builds Catch2 v3.4.0 using CMake's FetchContent feature.
+
+### Running Tests
 
 ```bash
 # Run all tests
-./build/tests/pangea_tests
+./pangea_tests
 
-# Run specific test sections
-./build/tests/pangea_tests "[value]"
-./build/tests/pangea_tests "[interpreter]"
+# Run specific test
+./pangea_tests "Value construction and type checking"
+
+# Run tests with CTest
+ctest --output-on-failure
+
+# List available tests
+./pangea_tests --list-tests
 ```
+
+### Test Features
+
+- Uses modern Catch2 v3 syntax and features
+- Automatic test discovery via CTest
+- Background FetchContent download ensures consistent testing environment
+- Comprehensive unit tests for core components
 
 ## Contributing
 
