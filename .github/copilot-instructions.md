@@ -35,7 +35,8 @@ This is a C++ implementation of the Pangea programming language interpreter, por
 
 ## Testing
 
-- Use Catch2 v3 testing framework with FetchContent integration
+- Use Catch2 v3 testing framework by default (FetchContent integration available)
+- If Catch2 v3 is installed, use it unless otherwise specified
 - Write unit tests for all core components
 - Include integration tests with example Pangea programs
 
