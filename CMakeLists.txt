@@ -46,21 +46,36 @@ message(STATUS "Compiler: ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}
 
 # Optional testing
 option(BUILD_TESTS "Build test suite with Catch2 v3" OFF)
+option(FORCE_FETCHCONTENT_CATCH2 "Force use of FetchContent for Catch2 instead of system package" OFF)
 
 if(BUILD_TESTS)
-    # Use FetchContent to download and build Catch2 v3
-    include(FetchContent)
-    
-    FetchContent_Declare(
-        Catch2
-        GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-        GIT_TAG v3.4.0
-    )
-    
-    FetchContent_MakeAvailable(Catch2)
-    
     enable_testing()
-    message(STATUS "Building tests with Catch2 v3 (FetchContent)")
+    
+    # Try to find system Catch2 v3 first (unless override specified)
+    if(NOT FORCE_FETCHCONTENT_CATCH2)
+        find_package(Catch2 3 QUIET)
+    endif()
+    
+    if(Catch2_FOUND AND NOT FORCE_FETCHCONTENT_CATCH2)
+        message(STATUS "Using system Catch2 v3")
+    else()
+        # Use FetchContent if system Catch2 v3 not found or explicitly requested
+        if(FORCE_FETCHCONTENT_CATCH2)
+            message(STATUS "Using FetchContent for Catch2 v3 (forced)")
+        else()
+            message(STATUS "System Catch2 v3 not found, using FetchContent")
+        endif()
+        include(FetchContent)
+        
+        FetchContent_Declare(
+            Catch2
+            GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+            GIT_TAG v3.4.0
+        )
+        
+        FetchContent_MakeAvailable(Catch2)
+        message(STATUS "Building tests with Catch2 v3 (FetchContent)")
+    endif()
     
     # Test executable
     add_executable(pangea_tests 
