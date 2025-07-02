@@ -113,13 +113,22 @@ int main(int argc, char *argv[])
 
                 Interpreter interpreter;
                 std::string code = argv[++i];
-                Value result = interpreter.execute(code);
 
-                if (!result.isNull())
+                try
                 {
-                    std::cout << result.toString() << std::endl;
+                    Value result = interpreter.execute(code);
+                    if (!result.isNull())
+                    {
+                        std::cout << result.toString() << std::endl;
+                    }
+                    // Always exit after evaluation, no need for explicit "exit"
+                    return 0;
                 }
-                return 0;
+                catch (const std::exception &e)
+                {
+                    std::cerr << "Error: " << e.what() << std::endl;
+                    return 1;
+                }
             }
             else if (arg == "-i" || arg == "--interactive")
             {
