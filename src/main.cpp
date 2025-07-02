@@ -11,11 +11,11 @@ void printUsage(const std::string &programName)
     std::cout << "Usage: " << programName << " [options] [file]\n";
     std::cout << "Options:\n";
     std::cout << "  -h, --help    Show this help message\n";
-    std::cout << "  -i, --interactive  Start interactive mode\n";
+    std::cout << "  -i, --interactive  Start interactive mode (default if no file given)\n";
     std::cout << "  -e, --eval CODE    Evaluate CODE directly\n";
     std::cout << "\n";
-    std::cout << "If no options are provided and a file is given, the file will be executed.\n";
-    std::cout << "If no file is provided, interactive mode will be started.\n";
+    std::cout << "If no file is provided, interactive mode will be started by default.\n";
+    std::cout << "If a file is provided, it will be executed and the result displayed.\n";
 }
 
 std::string readFile(const std::string &filename)
@@ -75,7 +75,7 @@ void interactiveMode()
             Value result = interpreter.execute(line);
             if (!result.isNull())
             {
-                std::cout << "=> " << result.asString() << std::endl;
+                std::cout << "=> " << result.toString() << std::endl;
             }
         }
         catch (const std::exception &e)
@@ -91,13 +91,9 @@ int main(int argc, char *argv[])
 {
     try
     {
-        if (argc == 1)
-        {
-            // No arguments - start interactive mode
-            interactiveMode();
-            return 0;
-        }
+        bool hasFileArg = false;
 
+        // First pass: check if we have any file arguments or special flags
         for (int i = 1; i < argc; ++i)
         {
             std::string arg = argv[i];
@@ -105,11 +101,6 @@ int main(int argc, char *argv[])
             if (arg == "-h" || arg == "--help")
             {
                 printUsage(argv[0]);
-                return 0;
-            }
-            else if (arg == "-i" || arg == "--interactive")
-            {
-                interactiveMode();
                 return 0;
             }
             else if (arg == "-e" || arg == "--eval")
@@ -126,20 +117,27 @@ int main(int argc, char *argv[])
 
                 if (!result.isNull())
                 {
-                    std::cout << result.asString() << std::endl;
+                    std::cout << result.toString() << std::endl;
                 }
+                return 0;
+            }
+            else if (arg == "-i" || arg == "--interactive")
+            {
+                // Force interactive mode
+                interactiveMode();
                 return 0;
             }
             else if (arg[0] != '-')
             {
-                // Assume it's a filename
+                // This is a filename
+                hasFileArg = true;
                 std::string code = readFile(arg);
                 Interpreter interpreter;
                 Value result = interpreter.execute(code);
 
                 if (!result.isNull())
                 {
-                    std::cout << result.asString() << std::endl;
+                    std::cout << result.toString() << std::endl;
                 }
                 return 0;
             }
@@ -149,6 +147,13 @@ int main(int argc, char *argv[])
                 printUsage(argv[0]);
                 return 1;
             }
+        }
+
+        // If no file arguments were provided, start interactive mode
+        if (argc == 1 || !hasFileArg)
+        {
+            interactiveMode();
+            return 0;
         }
     }
     catch (const std::exception &e)
