@@ -256,7 +256,7 @@ namespace pangea
         }
         else
         {
-            return Value(a.asString() + b.asString());
+            return Value(a.toString() + b.toString());
         }
     }
 
@@ -298,7 +298,7 @@ namespace pangea
         }
         else
         {
-            return Value(a.asString() < b.asString());
+            return Value(a.toString() < b.toString());
         }
     }
 
@@ -310,7 +310,7 @@ namespace pangea
         }
         else
         {
-            return Value(a.asString() > b.asString());
+            return Value(a.toString() > b.toString());
         }
     }
 
@@ -331,12 +331,12 @@ namespace pangea
 
     void Interpreter::print(const Value &value)
     {
-        std::cout << value.asString();
+        std::cout << value.toString();
     }
 
     void Interpreter::println(const Value &value)
     {
-        std::cout << value.asString() << std::endl;
+        std::cout << value.toString() << std::endl;
     }
 
     Value Interpreter::input()
@@ -407,7 +407,7 @@ namespace pangea
 
     Value Interpreter::toString(const Value &value)
     {
-        return Value(value.asString());
+        return Value(value.toString());
     }
 
     Value Interpreter::toNumber(const Value &value)
