@@ -205,11 +205,4 @@ namespace pangea
         return result;
     }
 
-    std::string Parser::handlePlus(const std::string &word)
-    {
-        // In modern Pangea C++, string literals are used as-is
-        // No special processing of + characters needed
-        return word;
-    }
-
 } // namespace pangea

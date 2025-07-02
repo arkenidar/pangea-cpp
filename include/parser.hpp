@@ -51,13 +51,6 @@ namespace pangea
          * @return Line with comments removed
          */
         static std::string removeComments(const std::string &line);
-
-        /**
-         * @brief Handle plus symbol replacement in strings
-         * @param word The string token to process
-         * @return Processed string with + converted to spaces
-         */
-        static std::string handlePlus(const std::string &word);
     };
 
 } // namespace pangea

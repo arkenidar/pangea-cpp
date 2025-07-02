@@ -12,7 +12,7 @@ TEST_CASE("Value construction and type checking", "[value]")
         Value v(42.0);
         REQUIRE(v.isNumber());
         REQUIRE_FALSE(v.isString());
-        REQUIRE_FALSE(v.isBool());
+        REQUIRE_FALSE(v.isBoolean());
         REQUIRE(v.asNumber() == 42.0);
     }
 
@@ -21,7 +21,7 @@ TEST_CASE("Value construction and type checking", "[value]")
         Value v("hello");
         REQUIRE(v.isString());
         REQUIRE_FALSE(v.isNumber());
-        REQUIRE_FALSE(v.isBool());
+        REQUIRE_FALSE(v.isBoolean());
         REQUIRE(v.asString() == "hello");
     }
 
@@ -85,11 +85,9 @@ TEST_CASE("Value equality", "[value]")
 
 TEST_CASE("Parser tokenization", "[parser]")
 {
-    Parser parser;
-
     SECTION("Simple tokens")
     {
-        auto tokens = parser.tokenize("hello world");
+        auto tokens = Parser::parseCode("hello world");
         REQUIRE(tokens.size() == 2);
         REQUIRE(tokens[0] == "hello");
         REQUIRE(tokens[1] == "world");
@@ -97,7 +95,7 @@ TEST_CASE("Parser tokenization", "[parser]")
 
     SECTION("Quoted strings")
     {
-        auto tokens = parser.tokenize("print \"hello world\"");
+        auto tokens = Parser::parseCode("print \"hello world\"");
         REQUIRE(tokens.size() == 2);
         REQUIRE(tokens[0] == "print");
         REQUIRE(tokens[1] == "\"hello world\"");
@@ -105,7 +103,7 @@ TEST_CASE("Parser tokenization", "[parser]")
 
     SECTION("Numbers and operators")
     {
-        auto tokens = parser.tokenize("plus 2 3");
+        auto tokens = Parser::parseCode("plus 2 3");
         REQUIRE(tokens.size() == 3);
         REQUIRE(tokens[0] == "plus");
         REQUIRE(tokens[1] == "2");
@@ -114,7 +112,7 @@ TEST_CASE("Parser tokenization", "[parser]")
 
     SECTION("Comment removal")
     {
-        auto tokens = parser.tokenize("hello # this is a comment\nworld");
+        auto tokens = Parser::parseCode("hello # this is a comment\nworld");
         REQUIRE(tokens.size() == 2);
         REQUIRE(tokens[0] == "hello");
         REQUIRE(tokens[1] == "world");
