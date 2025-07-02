@@ -68,6 +68,22 @@ pangea> exit
 Goodbye!
 ```
 
+#### Enhanced Interactive Mode with rlwrap
+
+For better command line editing (history, arrow keys, etc.), use `rlwrap`:
+
+```bash
+# Install rlwrap (if not already installed)
+sudo apt-get install rlwrap  # On Ubuntu/Debian
+# or
+brew install rlwrap          # On macOS
+
+# Run with enhanced editing
+rlwrap ./pangea --interactive
+```
+
+In VS Code, you can use the "run pangea with rlwrap" task (Ctrl+Shift+P → "Tasks: Run Task" → "run pangea with rlwrap").
+
 ### Execute Files
 
 Run Pangea programs from files:
@@ -282,7 +298,15 @@ cmake -DBUILD_TESTS=ON ..
 make -j$(nproc)
 ```
 
-The build system automatically downloads and builds Catch2 v3.4.0 using CMake's FetchContent feature.
+The build system first tries to use system-installed Catch2 v3, and falls back to automatically downloading and building Catch2 v3.4.0 using CMake's FetchContent feature if not found.
+
+#### Force FetchContent (Optional)
+
+To explicitly use FetchContent even if system Catch2 v3 is available:
+
+```bash
+cmake -DBUILD_TESTS=ON -DFORCE_FETCHCONTENT_CATCH2=ON ..
+```
 
 ### Running Tests
 
