@@ -2,6 +2,8 @@
 build/
 build-*/
 out/
+# CLion build directories
+cmake-build-*/
 
 # CMake generated files
 CMakeFiles/
@@ -73,3 +75,4 @@ docs/latex/
 *.zip
 *.tar.gz
 *.7z
+/cmake-build-debug/
